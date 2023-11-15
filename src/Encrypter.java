@@ -91,14 +91,18 @@ public class Encrypter {
     private char encryptCharacter(char character, int shift){
         if (Character.isLetter(character)){
             char base = Character.isLowerCase(character) ? 'a' : 'A';
-            int offset = Character.toLowerCase(character) - base + shift;
-            int modOffset = Math.floorMod(offset, 26); // returns a not negative//the lowest modulus of the offset and alphabet
+            int offset = character - base;
+            int modOffset = (offset + shift) % 26;// returns a not negative//the lowest modulus of the offset and alphabet
+            if (modOffset < 0){
+                modOffset += 26; //fix the negative shift
+            }
             return (char) (base + modOffset);
         }
         else {
             return character;
         }
     }
+    @Override
     public String toString() {
         return encrypted;
     }
